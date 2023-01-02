@@ -84,6 +84,38 @@ router.delete("/delete/:id", auth ,async(req, res) => {
       console.log(e)
     }
   });
+
+  router.patch("/like/:id", auth ,async(req, res) => {
+    try{
+    const post = await Blog.findByIdAndUpdate({_id:req.params.id},{$inc : {'likes' : 1}},{
+      new:true
+    })
+    if(post){
+        res.send(post)
+    }else{
+        res.send("fail at backend")
+    }
+    }catch(e){
+      console.log(e)
+    }
+  });
+
+  router.patch("/comment/:id", auth ,async(req, res) => {
+    try{
+      const {text,commentby} = req.body
+      const comment = [text,commentby]
+    const post = await Blog.findByIdAndUpdate({_id:req.params.id},{$push : {comments : {"text":text,"commentby":commentby}}},{
+      new:true
+    })
+    if(post){
+        res.send(post)
+    }else{
+        res.send("fail at backend")
+    }
+    }catch(e){
+      console.log(e)
+    }
+  });
   
 
 module.exports = router

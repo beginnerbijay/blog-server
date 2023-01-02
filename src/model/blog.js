@@ -20,7 +20,12 @@ const blogSchema = mongoose.Schema({
     createdat:{
         type:Date,
         default:Date.now()
-    }
+    },
+    likes:{
+        type:Number,
+        default:0
+    },
+    comments:[{text:String,commentby:String}]
 })
 
 const Blog = mongoose.model("blog",blogSchema)
